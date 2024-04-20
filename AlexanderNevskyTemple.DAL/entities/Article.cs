@@ -1,5 +1,8 @@
-﻿namespace AlexanderNevskyTemple.DAL.entities;
+﻿using Microsoft.EntityFrameworkCore;
 
+namespace AlexanderNevskyTemple.DAL.entities;
+
+[PrimaryKey(nameof(Id))]
 public class Article
 {
     public Guid Id { get; set; }
