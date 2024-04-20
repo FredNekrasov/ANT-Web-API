@@ -23,5 +23,5 @@ public class ContentRepository(ANTDbContext context) {
         }
         return true;
     }
-    public async Task<bool> EntityExistsAsync(int id) => await _context.Catalogs.AnyAsync(e => e.Id == id);
+    public async Task<bool> EntityExistsAsync(Guid id) => await _context.Contents.AnyAsync(e => e.Id == id);
 }

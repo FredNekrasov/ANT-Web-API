@@ -14,7 +14,7 @@ public class CatalogRepository(ANTDbContext context) {
         await _context.Catalogs.AddAsync(entity);
         await _context.SaveChangesAsync();
     }
-    public async Task<bool?> UpdateAsync(Catalog entity) {
+    public async Task<bool> UpdateAsync(Catalog entity) {
         _context.Entry(entity).State = EntityState.Modified;
         try {
             await _context.SaveChangesAsync();
