@@ -1,8 +1,12 @@
+using AlexanderNevskyTemple.BLL;
+using AlexanderNevskyTemple.DAL;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddDALModule(builder.Configuration.GetConnectionString("ANTConnectionString")).AddBLModule();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
