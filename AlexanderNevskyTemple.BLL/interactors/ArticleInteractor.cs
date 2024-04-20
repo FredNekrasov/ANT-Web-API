@@ -4,7 +4,7 @@ using AlexanderNevskyTemple.DAL.repositories;
 namespace AlexanderNevskyTemple.BLL.interactors;
 public class ArticleInteractor(ArticleRepository repository) {
     private readonly ArticleRepository _repository = repository;
-    public async Task<bool> DeleteAsync(Guid id) {
+    public async Task<bool> DeleteAsync(long id) {
         var list = await _repository.GetListAsync();
         var entity = list.FirstOrDefault(i => i.Id == id);
         if(entity == null) return false;
@@ -17,7 +17,7 @@ public class ArticleInteractor(ArticleRepository repository) {
         await _repository.InsertAsync(entity);
         return true;
     }
-    public async Task<bool?> UpdateAsync(Guid id, Article entity) {
+    public async Task<bool?> UpdateAsync(long id, Article entity) {
         if (entity.Id != id) return false;
         if (!await _repository.EntityExistsAsync(id)) return null;
         return await _repository.UpdateAsync(entity);
