@@ -1,6 +1,7 @@
 ﻿using AlexanderNevskyTemple.BLL.interactors;
 using AlexanderNevskyTemple.DAL.entities;
 using AlexanderNevskyTemple.WebAPI.dto;
+using AlexanderNevskyTemple.WebAPI.mappers;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,12 +28,12 @@ public class CatalogController(CatalogInteractor interactor, IMapper mapper) : I
     }
     [HttpPost]
     public override async Task<IActionResult> PostRecordAsync(CatalogDto dto) {
-        bool result = await _interactor.InsertAsync(_mapper.Map<Catalog>(dto));
+        bool result = await _interactor.InsertAsync(dto.ToEntity());
         if(result) return Ok(); else return BadRequest();
     }
     [HttpPut("{id}")]
     public override async Task<IActionResult> PutRecordAsync(int id, CatalogDto dto) {
-        bool? result = await _interactor.UpdateAsync(id, _mapper.Map<Catalog>(dto));
+        bool? result = await _interactor.UpdateAsync(id, dto.ToEntity());
         return result switch {
             false => BadRequest(),
             null => NotFound(),

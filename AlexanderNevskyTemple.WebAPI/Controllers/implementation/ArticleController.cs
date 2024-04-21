@@ -1,4 +1,5 @@
 ﻿using AlexanderNevskyTemple.BLL.interactors;
+using AlexanderNevskyTemple.DAL.entities;
 using AlexanderNevskyTemple.WebAPI.dto;
 using AlexanderNevskyTemple.WebAPI.mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -18,8 +19,14 @@ public class ArticleController(ArticleInteractor interactor) : IController<Artic
         };
     }
     [HttpGet]
-    public override Task<ActionResult<IEnumerable<ArticleDto>>> GetListAsync() {
-        throw new NotImplementedException();
+    public override async Task<ActionResult<IEnumerable<ArticleDto>>> GetListAsync() {
+        var articles = await _interactor.GetListAsync();
+        if(articles == null) return NoContent();
+        List<ArticleDto> dtos = [];
+        foreach(var article in articles) {
+            dtos.Add(article.ToDto());
+        }
+        return Ok(dtos);
     }
     [HttpPost]
     public override async Task<IActionResult> PostRecordAsync(ArticleDto dto) {
