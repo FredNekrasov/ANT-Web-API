@@ -13,12 +13,12 @@ public class CatalogInteractor(CatalogRepository repository) {
     }
     public async Task<List<Catalog>> GetListAsync() => await _repository.GetListAsync();
     public async Task<bool> InsertAsync(Catalog? entity) {
-        if(entity == null) return false;
+        if((entity == null) || !entity.IsDataValid()) return false;
         await _repository.InsertAsync(entity);
         return true;
     }
     public async Task<bool?> UpdateAsync(int id, Catalog entity) {
-        if (entity.Id != id) return false;
+        if ((entity == null) || (entity.Id != id) || !entity.IsDataValid()) return false;
         if (!await _repository.EntityExistsAsync(id)) return null;
         return await _repository.UpdateAsync(entity);
     }

@@ -13,12 +13,12 @@ public class ArticleInteractor(ArticleRepository repository) {
     }
     public async Task<List<Article>> GetListAsync() => await _repository.GetListAsync();
     public async Task<bool> InsertAsync(Article? entity) {
-        if(entity == null) return false;
+        if((entity == null) || !entity.IsDataValid()) return false;
         await _repository.InsertAsync(entity);
         return true;
     }
     public async Task<bool?> UpdateAsync(long id, Article entity) {
-        if (entity.Id != id) return false;
+        if ((entity == null) || (entity.Id != id) || !entity.IsDataValid()) return false;
         if (!await _repository.EntityExistsAsync(id)) return null;
         return await _repository.UpdateAsync(entity);
     }
