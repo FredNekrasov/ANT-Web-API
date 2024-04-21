@@ -5,7 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlexanderNevskyTemple.WebAPI.Controllers.implementation;
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 [ApiController]
 public class ContentController(ContentInteractor interactor, IMapper mapper) : IController<ContentDto, long> {
     private readonly ContentInteractor _interactor = interactor;

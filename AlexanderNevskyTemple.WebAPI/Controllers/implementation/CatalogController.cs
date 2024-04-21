@@ -1,12 +1,11 @@
 ﻿using AlexanderNevskyTemple.BLL.interactors;
-using AlexanderNevskyTemple.DAL.entities;
 using AlexanderNevskyTemple.WebAPI.dto;
 using AlexanderNevskyTemple.WebAPI.mappers;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlexanderNevskyTemple.WebAPI.Controllers.implementation;
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 [ApiController]
 public class CatalogController(CatalogInteractor interactor, IMapper mapper) : IController<CatalogDto, int> {
     private readonly CatalogInteractor _interactor = interactor;
