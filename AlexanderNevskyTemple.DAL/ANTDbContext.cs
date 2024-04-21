@@ -3,7 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AlexanderNevskyTemple.DAL;
 
-public class ANTDbContext(DbContextOptions<ANTDbContext> dbContextOptions) : DbContext(dbContextOptions) {
+public class ANTDbContext : DbContext {
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+        base.OnConfiguring(optionsBuilder);
+        optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ANT;Integrated Security=true;");
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Catalog>().HasMany(i => i.Articles).WithOne(i => i.Catalog).HasForeignKey(i => i.CatalogId);
