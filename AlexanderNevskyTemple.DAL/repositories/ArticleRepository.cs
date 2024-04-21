@@ -5,9 +5,11 @@ namespace AlexanderNevskyTemple.DAL.repositories;
 
 public class ArticleRepository(ANTDbContext context) {
     private readonly ANTDbContext _context = context;
-    public async Task DeleteAsync(Article entity) {
+    public async Task<bool> DeleteAsync(Article entity) {
+        if(_context.Contents.FirstOrDefaultAsync(i => i.ArticleId == entity.Id) == null) return false;
         _context.Articles.Remove(entity);
         await _context.SaveChangesAsync();
+        return true;
     }
     public async Task<List<Article>> GetListAsync() => await _context.Articles.ToListAsync();
     public async Task InsertAsync(Article entity) {
