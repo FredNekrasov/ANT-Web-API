@@ -4,12 +4,12 @@ using AlexanderNevskyTemple.DAL.repositories;
 namespace AlexanderNevskyTemple.BLL.interactors;
 public class ArticleInteractor(ArticleRepository repository) {
     private readonly ArticleRepository _repository = repository;
-    public async Task<bool> DeleteAsync(long id) {
+    public async Task<bool?> DeleteAsync(long id) {
         var list = await _repository.GetListAsync();
         var entity = list.FirstOrDefault(i => i.Id == id);
         if(entity == null) return false;
-        await _repository.DeleteAsync(entity);
-        return true;
+        bool result = await _repository.DeleteAsync(entity);
+        return result == false ? null : true;
     }
     public async Task<List<Article>> GetListAsync() => await _repository.GetListAsync();
     public async Task<bool> InsertAsync(Article? entity) {
