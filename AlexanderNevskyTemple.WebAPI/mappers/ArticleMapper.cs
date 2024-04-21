@@ -3,9 +3,9 @@ using AlexanderNevskyTemple.WebAPI.dto;
 
 namespace AlexanderNevskyTemple.WebAPI.mappers;
 public static class ArticleMapper {
-    public static ArticleDto ToDto(this Article entity, Catalog catalog) => new() {
+    public static ArticleDto ToDto(this Article entity) => new() {
         Id = entity.Id,
-        Catalog = catalog,
+        Catalog = entity.Catalog.ToDto(),
         Title = entity.Title,
         Description = entity.Description,
         Date = entity.Date
