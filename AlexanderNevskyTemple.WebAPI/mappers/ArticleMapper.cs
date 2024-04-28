@@ -8,13 +8,20 @@ public static class ArticleMapper {
         Catalog = entity.Catalog.ToDto(),
         Title = entity.Title,
         Description = entity.Description,
-        Date = entity.Date
+        DateOrBanner = entity.DateOrBanner
     };
     public static Article ToEntity(this ArticleDto dto) => new() {
         Id = dto.Id,
         CatalogId = dto.Catalog.Id,
         Title = dto.Title,
         Description = dto.Description,
-        Date = dto.Date,
+        DateOrBanner = dto.DateOrBanner,
     };
+    public static List<ArticleDto> ToDtoList(this List<Article> entities) {
+        var list = new List<ArticleDto>();
+        foreach (var entity in entities) {
+            list.Add(entity.ToDto());
+        }
+        return list;
+    }
 }
