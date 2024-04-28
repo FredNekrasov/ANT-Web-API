@@ -4,7 +4,7 @@ using AlexanderNevskyTemple.WebAPI.mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlexanderNevskyTemple.WebAPI.Controllers.implementation;
-[Route("api/v1/[controller]")]
+[Route("api/v2/[controller]")]
 [ApiController]
 public class ArticleController(ArticleInteractor interactor) : IController<ArticleDto, long> {
     private readonly ArticleInteractor _interactor = interactor;
@@ -21,11 +21,7 @@ public class ArticleController(ArticleInteractor interactor) : IController<Artic
     public override async Task<ActionResult<IEnumerable<ArticleDto>>> GetListAsync() {
         var articles = await _interactor.GetListAsync();
         if(articles == null) return NoContent();
-        List<ArticleDto> dtos = [];
-        foreach(var article in articles) {
-            dtos.Add(article.ToDto());
-        }
-        return Ok(dtos);
+        return Ok(articles.ToDtoList());
     }
     [HttpPost]
     public override async Task<IActionResult> PostRecordAsync(ArticleDto dto) {
