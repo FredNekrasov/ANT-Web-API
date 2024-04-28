@@ -6,6 +6,6 @@ namespace AlexanderNevskyTemple.DAL.entities;
 public class Content {
     public long Id { get; set; }
     public long ArticleId { get; set; }
-    public string URL { get; set; } = string.Empty;
+    public string Data { get; set; } = string.Empty;//it can be contacts or images
     public virtual Article Article { get; set; }
 }
