@@ -1,24 +1,32 @@
 ﻿using AlexanderNevskyTemple.DAL.entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace AlexanderNevskyTemple.DAL.repositories;
+namespace AlexanderNevskyTemple.DAL.repositories.impl;
 
-public class ContentRepository(ANTDbContext context) {
+public class ContentRepository(ANTDbContext context) : IRepository<Content, long>
+{
     private readonly ANTDbContext _context = context;
-    public async Task DeleteAsync(Content entity) {
+    public async Task<bool> DeleteAsync(Content entity)
+    {
         _context.Contents.Remove(entity);
         await _context.SaveChangesAsync();
+        return true;
     }
     public async Task<List<Content>> GetListAsync() => await _context.Contents.ToListAsync();
-    public async Task InsertAsync(Content entity) {
+    public async Task InsertAsync(Content entity)
+    {
         await _context.Contents.AddAsync(entity);
         await _context.SaveChangesAsync();
     }
-    public async Task<bool> UpdateAsync(Content entity) {
+    public async Task<bool> UpdateAsync(Content entity)
+    {
         _context.Entry(entity).State = EntityState.Modified;
-        try {
+        try
+        {
             await _context.SaveChangesAsync();
-        } catch(DbUpdateConcurrencyException) {
+        }
+        catch (DbUpdateConcurrencyException)
+        {
             return false;
         }
         return true;
