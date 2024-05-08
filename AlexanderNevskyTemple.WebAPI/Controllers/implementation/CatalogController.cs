@@ -1,14 +1,15 @@
 ﻿using AlexanderNevskyTemple.BLL.interactors;
+using AlexanderNevskyTemple.DAL.entities;
 using AlexanderNevskyTemple.WebAPI.dto;
 using AlexanderNevskyTemple.WebAPI.mappers;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlexanderNevskyTemple.WebAPI.Controllers.implementation;
-[Route("api/v1/[controller]")]
+[Route("api/v2/[controller]")]
 [ApiController]
-public class CatalogController(CatalogInteractor interactor, IMapper mapper) : IController<CatalogDto, int> {
-    private readonly CatalogInteractor _interactor = interactor;
+public class CatalogController(IInteractor<Catalog, int> interactor, IMapper mapper) : IController<CatalogDto, int> {
+    private readonly IInteractor<Catalog, int> _interactor = interactor;
     private readonly IMapper _mapper = mapper;
     [HttpDelete("{id}")]
     public override async Task<IActionResult> DeleteRecordAsync(int id) {

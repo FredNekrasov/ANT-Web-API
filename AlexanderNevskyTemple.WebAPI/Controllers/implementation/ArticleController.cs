@@ -1,4 +1,5 @@
 ﻿using AlexanderNevskyTemple.BLL.interactors;
+using AlexanderNevskyTemple.DAL.entities;
 using AlexanderNevskyTemple.WebAPI.dto;
 using AlexanderNevskyTemple.WebAPI.mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -6,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace AlexanderNevskyTemple.WebAPI.Controllers.implementation;
 [Route("api/v2/[controller]")]
 [ApiController]
-public class ArticleController(ArticleInteractor interactor) : IController<ArticleDto, long> {
-    private readonly ArticleInteractor _interactor = interactor;
+public class ArticleController(IInteractor<Article, long> interactor) : IController<ArticleDto, long> {
+    private readonly IInteractor<Article, long> _interactor = interactor;
     [HttpDelete("{id}")]
     public override async Task<IActionResult> DeleteRecordAsync(long id) {
         bool? result = await _interactor.DeleteAsync(id);

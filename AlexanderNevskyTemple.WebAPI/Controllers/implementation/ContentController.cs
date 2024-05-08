@@ -5,15 +5,15 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlexanderNevskyTemple.WebAPI.Controllers.implementation;
-[Route("api/v1/[controller]")]
+[Route("api/v2/[controller]")]
 [ApiController]
-public class ContentController(ContentInteractor interactor, IMapper mapper) : IController<ContentDto, long> {
-    private readonly ContentInteractor _interactor = interactor;
+public class ContentController(IInteractor<Content, long> interactor, IMapper mapper) : IController<ContentDto, long> {
+    private readonly IInteractor<Content, long> _interactor = interactor;
     private readonly IMapper _mapper = mapper;
     [HttpDelete("{id}")]
     public override async Task<IActionResult> DeleteRecordAsync(long id) {
-        bool result = await _interactor.DeleteAsync(id);
-        if(result) return Ok(); else return BadRequest();
+        bool? result = await _interactor.DeleteAsync(id);
+        if((result != null) && (result == true)) return Ok(); else return BadRequest();
     }
     [HttpGet]
     public override async Task<ActionResult<IEnumerable<ContentDto>>> GetListAsync() {
