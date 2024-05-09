@@ -1,5 +1,5 @@
 ﻿using AlexanderNevskyTemple.BLL.interactors;
-using AlexanderNevskyTemple.DAL.entities;
+using AlexanderNevskyTemple.BLL.models;
 using AlexanderNevskyTemple.WebAPI.dto;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace AlexanderNevskyTemple.WebAPI.Controllers.implementation;
 [Route("api/v2/[controller]")]
 [ApiController]
-public class ContentController(IInteractor<Content, long> interactor, IMapper mapper) : IController<ContentDto, long> {
-    private readonly IInteractor<Content, long> _interactor = interactor;
+public class ContentController(IInteractor<ContentModel, long> interactor, IMapper mapper) : IController<ContentDto, long> {
+    private readonly IInteractor<ContentModel, long> _interactor = interactor;
     private readonly IMapper _mapper = mapper;
     [HttpDelete("{id}")]
     public override async Task<IActionResult> DeleteRecordAsync(long id) {
@@ -23,12 +23,12 @@ public class ContentController(IInteractor<Content, long> interactor, IMapper ma
     }
     [HttpPost]
     public override async Task<IActionResult> PostRecordAsync(ContentDto dto) {
-        bool result = await _interactor.InsertAsync(_mapper.Map<Content>(dto));
+        bool result = await _interactor.InsertAsync(_mapper.Map<ContentModel>(dto));
         if(result) return Ok(); else return BadRequest();
     }
     [HttpPut("{id}")]
     public override async Task<IActionResult> PutRecordAsync(long id, ContentDto dto) {
-        bool? result = await _interactor.UpdateAsync(id, _mapper.Map<Content>(dto));
+        bool? result = await _interactor.UpdateAsync(id, _mapper.Map<ContentModel>(dto));
         return result switch {
             false => BadRequest(),
             null => NotFound(),

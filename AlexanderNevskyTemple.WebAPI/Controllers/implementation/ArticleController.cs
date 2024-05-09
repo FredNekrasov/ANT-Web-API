@@ -1,14 +1,15 @@
 ﻿using AlexanderNevskyTemple.BLL.interactors;
-using AlexanderNevskyTemple.DAL.entities;
+using AlexanderNevskyTemple.BLL.models;
 using AlexanderNevskyTemple.WebAPI.dto;
-using AlexanderNevskyTemple.WebAPI.mappers;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlexanderNevskyTemple.WebAPI.Controllers.implementation;
 [Route("api/v2/[controller]")]
 [ApiController]
-public class ArticleController(IInteractor<Article, long> interactor) : IController<ArticleDto, long> {
-    private readonly IInteractor<Article, long> _interactor = interactor;
+public class ArticleController(IInteractor<ArticleModel, long> interactor, IMapper mapper) : IController<ArticleDto, long> {
+    private readonly IInteractor<ArticleModel, long> _interactor = interactor;
+    private readonly IMapper _mapper = mapper;
     [HttpDelete("{id}")]
     public override async Task<IActionResult> DeleteRecordAsync(long id) {
         bool? result = await _interactor.DeleteAsync(id);
@@ -22,16 +23,16 @@ public class ArticleController(IInteractor<Article, long> interactor) : IControl
     public override async Task<ActionResult<IEnumerable<ArticleDto>>> GetListAsync() {
         var articles = await _interactor.GetListAsync();
         if(articles == null) return NoContent();
-        return Ok(articles.ToDtoList());
+        return Ok(_mapper.Map<List<ArticleDto>>(articles));
     }
     [HttpPost]
     public override async Task<IActionResult> PostRecordAsync(ArticleDto dto) {
-        bool result = await _interactor.InsertAsync(dto.ToEntity());
+        bool result = await _interactor.InsertAsync(_mapper.Map<ArticleModel>(dto));
         if(result) return Ok(); else return BadRequest();
     }
     [HttpPut("{id}")]
     public override async Task<IActionResult> PutRecordAsync(long id, ArticleDto dto) {
-        bool? result = await _interactor.UpdateAsync(id, dto.ToEntity());
+        bool? result = await _interactor.UpdateAsync(id, _mapper.Map<ArticleModel>(dto));
         return result switch {
             false => BadRequest(),
             null => NotFound(),

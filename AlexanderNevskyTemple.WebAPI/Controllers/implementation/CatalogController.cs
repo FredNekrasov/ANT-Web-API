@@ -1,15 +1,14 @@
 ﻿using AlexanderNevskyTemple.BLL.interactors;
-using AlexanderNevskyTemple.DAL.entities;
+using AlexanderNevskyTemple.BLL.models;
 using AlexanderNevskyTemple.WebAPI.dto;
-using AlexanderNevskyTemple.WebAPI.mappers;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AlexanderNevskyTemple.WebAPI.Controllers.implementation;
 [Route("api/v2/[controller]")]
 [ApiController]
-public class CatalogController(IInteractor<Catalog, int> interactor, IMapper mapper) : IController<CatalogDto, int> {
-    private readonly IInteractor<Catalog, int> _interactor = interactor;
+public class CatalogController(IInteractor<CatalogModel, int> interactor, IMapper mapper) : IController<CatalogDto, int> {
+    private readonly IInteractor<CatalogModel, int> _interactor = interactor;
     private readonly IMapper _mapper = mapper;
     [HttpDelete("{id}")]
     public override async Task<IActionResult> DeleteRecordAsync(int id) {
@@ -28,12 +27,12 @@ public class CatalogController(IInteractor<Catalog, int> interactor, IMapper map
     }
     [HttpPost]
     public override async Task<IActionResult> PostRecordAsync(CatalogDto dto) {
-        bool result = await _interactor.InsertAsync(dto.ToEntity());
+        bool result = await _interactor.InsertAsync(_mapper.Map<CatalogModel>(dto));
         if(result) return Ok(); else return BadRequest();
     }
     [HttpPut("{id}")]
     public override async Task<IActionResult> PutRecordAsync(int id, CatalogDto dto) {
-        bool? result = await _interactor.UpdateAsync(id, dto.ToEntity());
+        bool? result = await _interactor.UpdateAsync(id, _mapper.Map<CatalogModel>(dto));
         return result switch {
             false => BadRequest(),
             null => NotFound(),
