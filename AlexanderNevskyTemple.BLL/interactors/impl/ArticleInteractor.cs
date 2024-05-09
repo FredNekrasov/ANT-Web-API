@@ -1,10 +1,10 @@
-﻿using AlexanderNevskyTemple.DAL.entities;
-using AlexanderNevskyTemple.DAL.repositories;
+﻿using AlexanderNevskyTemple.BLL.models;
+using AlexanderNevskyTemple.BLL.repository;
 
 namespace AlexanderNevskyTemple.BLL.interactors.impl;
-public class ArticleInteractor(IRepository<Article, long> repository) : IInteractor<Article, long>
+public class ArticleInteractor(IRepository<ArticleModel, long> repository) : IInteractor<ArticleModel, long>
 {
-    private readonly IRepository<Article, long> _repository = repository;
+    private readonly IRepository<ArticleModel, long> _repository = repository;
     public async Task<bool?> DeleteAsync(long id)
     {
         var list = await _repository.GetListAsync();
@@ -13,14 +13,14 @@ public class ArticleInteractor(IRepository<Article, long> repository) : IInterac
         bool result = await _repository.DeleteAsync(entity);
         return result == false ? null : true;
     }
-    public async Task<List<Article>> GetListAsync() => await _repository.GetListAsync();
-    public async Task<bool> InsertAsync(Article? entity)
+    public async Task<List<ArticleModel>> GetListAsync() => await _repository.GetListAsync();
+    public async Task<bool> InsertAsync(ArticleModel? entity)
     {
         if (entity == null || !entity.IsDataValid()) return false;
         await _repository.InsertAsync(entity);
         return true;
     }
-    public async Task<bool?> UpdateAsync(long id, Article entity)
+    public async Task<bool?> UpdateAsync(long id, ArticleModel entity)
     {
         if (entity == null || entity.Id != id || !entity.IsDataValid()) return false;
         if (!await _repository.EntityExistsAsync(id)) return null;
