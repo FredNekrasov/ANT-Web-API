@@ -13,5 +13,7 @@ public class DTOMapper : Profile {
 
         CreateMap<ContentModel, ContentDto>();
         CreateMap<ContentDto, ContentModel>();
+
+        CreateMap<ChapterModel, ChapterDto>();
     }
 }
