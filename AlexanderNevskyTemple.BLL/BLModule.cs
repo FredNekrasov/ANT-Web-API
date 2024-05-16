@@ -10,6 +10,7 @@ public static class BLModule {
         services.AddScoped<IInteractor<CatalogModel, int>, CatalogInteractor>();
         services.AddScoped<IInteractor<ArticleModel, long>, ArticleInteractor>();
         services.AddScoped<IInteractor<ContentModel, long>, ContentInteractor>();
+        services.AddScoped<ChapterInteractor, ChapterInteractor>();
         return services;
     }
 }
